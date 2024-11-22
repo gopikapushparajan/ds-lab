@@ -1,0 +1,78 @@
+#include<stdio.h> 
+#include<ctype.h> 
+#define size 50 
+char stack [size]; 
+int top=-1; 
+void push(char elem) 
+{
+    stack [++top]=elem;  
+} 
+char pop(){
+    if(top>=0)
+    {
+        return stack[top];
+        top--;
+    }
+    else 
+    {
+        printf("stack empty");
+    }
+}
+int is_num(char c)
+{
+    return (c>=0&&c<=9);
+}
+int pre(char s)
+{
+    if(s=='*'||s=='/')
+        return 2;
+    else if(s=='+'||s=='-')
+        return 1;
+    else
+        return 0;
+}
+int main()
+{
+    char infix[size],postfix[size];
+    int i=0,k=0;
+    printf("Enter infix expression: ");
+    scanf("%s",infix);
+    
+    while((ch=infix[i++])!='\0')
+    {
+        if(ch=='(')
+        {
+            push(ch);
+        }
+        else if(is_num(ch))
+        {
+            postfix[k]=ch;
+            k++;
+        }
+        else if(ch==')')
+        {
+            while(top!=-1&&stack[top]!='(')
+            {
+                postfix[k]=pop();
+                k++;
+            }
+            pop();
+        }
+        else 
+        {
+            while(top!=-1 && (stack[top]>=pre(ch)))
+            {
+                postfix[k]=pop();
+                k++;
+            }
+            push(ch);
+        }
+        while(top!=-1)
+        {
+            postfix[k++]=pop();
+        }
+        postfix[k]='\0';
+        printf("Postfix expression=%s\n",postfix);
+    }
+    return 0;
+}
