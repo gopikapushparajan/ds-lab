@@ -1,0 +1,139 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+struct Node *head=NULL;
+void insert();
+void delete_at_front();
+void delete_at_end();
+void delete_at_pos();
+void print_list();
+
+void insert()
+{
+    struct Node *new_node;
+    int item;
+    new_node= (struct Node*)malloc(sizeof(struct Node));
+    if(new_node==NULL)
+        printf("\nOVERFLOW");
+    else
+    {
+        printf("\nEnter value\n");
+        scanf("%d",&item);
+        new_node->data=item;
+        new_node->next=head;
+        head=new_node;
+        printf("\nNode inserted");
+
+    }
+}
+
+void delete_at_front()
+{
+    struct Node *ptr;
+    if(head==NULL)
+    {
+        printf("List is empty");
+    }
+    else 
+    {
+        ptr=head;
+        head=ptr->next;
+        free(ptr);
+        printf("\nNode is deleted");
+    }
+}
+
+void delete_at_end()
+{
+    struct Node *ptr,*prev;
+    if(head=NULL)
+    {
+        printf("\nList is empty");
+    }
+    else if(head->next==NULL)
+    {
+        head=NULL;
+        free(head);
+        printf("\nOnly node presented is deleted");
+    }
+    else 
+    {
+        ptr=head;
+        while(ptr->next!=NULL)
+        {
+            prev=ptr;
+            ptr=ptr->next;
+        }
+        prev->next=NULL;
+        free(ptr);
+        printf("\nDeleted at end");
+    }
+}
+
+void delete_at_pos()
+{
+    struct Node *ptr,*prev;
+    int pos,i;
+    printf("Enter location to delete the node\n");
+    scanf("%d",&pos);
+    ptr=head;
+    for(i=0;i<pos-1;i++);
+    {
+        prev=ptr;
+        ptr=ptr->next;
+        if(ptr==NULL)
+        {
+            printf("\nCannot delete");
+            return;
+        }
+    }
+    prev->next=ptr->next;
+    free(ptr);
+    printf("Deleted node at position %d",pos);
+}
+
+void print_list() {
+    struct Node *temp = head;
+    if (temp == NULL) {
+        printf("\nThe list is empty.");
+    } else {
+        printf("\nList: ");
+        while (temp != NULL) {
+            printf("%d -> ", temp->data);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+void main()
+{
+    int choice=0;
+    while(choice!=6)
+    {
+        printf("\nEnter your choice from the list");
+        printf("\n1.Insert\n2.Delete at front\n3.Delete at end\n4.Delete at position\n5.Display\n6.EXIT\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1: insert();
+                    break;
+            case 2: delete_at_front();
+                    break;
+            case 3: delete_at_end();
+                    break;
+            case 4: delete_at_pos();
+                    break;
+            case 5: print_list();
+                    break;
+            case 6: printf("THANKS");
+                    break;
+            default: printf("Invalid choice");
+        }
+
+    }
+
+}
